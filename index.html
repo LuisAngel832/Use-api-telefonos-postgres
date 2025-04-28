@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Consumo de REST-API de Teléfonos</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="callrestapi.js"></script>
+    <link rel="stylesheet" href="index.css">
+  </head>
+<body>
+
+<h1>Consumo de REST-API de Teléfonos</h1>
+
+<div>
+  <label>ID (para actualizar o eliminar)</label>
+  <input type="text" id="id">
+</div>
+
+<div>
+  <label>Marca</label>
+  <input type="text" id="marca">
+</div>
+
+<div>
+  <label>Modelo</label>
+  <input type="text" id="modelo">
+</div>
+
+<div>
+  <label>Precio</label>
+  <input type="text" id="precio">
+</div>
+
+<div>
+  <label>Descripción</label>
+  <input type="text" id="descripcion">
+</div>
+
+<br>
+
+<button onclick="postPhone()">Agregar Teléfono</button>
+<button onclick="getPhones()">Ver Teléfonos</button>
+<button onclick="updatePhone()">Actualizar Teléfono</button>
+<button onclick=deletePhone()>Eliminar Teléfono</button>
+
+<div id="resultado"></div>
+
+
+</body>
+</html>

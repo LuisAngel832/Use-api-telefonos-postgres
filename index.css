@@ -1,0 +1,62 @@
+/* Fondo general modo oscuro */
+body {
+    background-color: #121212;
+    color: #e0e0e0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    padding: 20px;
+  }
+  
+  /* Inputs */
+  input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0;
+    background-color: #1e1e1e;
+    border: 1px solid #333;
+    border-radius: 8px;
+    color: #e0e0e0;
+  }
+  
+  /* Botones */
+  button {
+    background-color: #3b82f6;
+    color: white;
+    padding: 10px 20px;
+    margin: 8px 5px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  /* Efecto hover en botones */
+  button:hover {
+    background-color: #2563eb;
+  }
+  
+  /* Tabla */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background-color: #1e1e1e;
+    color: #e0e0e0;
+  }
+  
+  th, td {
+    border: 1px solid #333;
+    padding: 12px;
+    text-align: left;
+  }
+  
+  th {
+    background-color: #222;
+  }
+  
+  /* Títulos o párrafos */
+  p {
+    font-size: 24px;
+    margin-bottom: 20px;
+    font-weight: bold;
+  }
+  
