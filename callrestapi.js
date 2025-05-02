@@ -1,21 +1,21 @@
 var url = "https://celularesapipostgres-latest.onrender.com/api/phones";
 
 function postPhone() {
-  var myBrand = $('#brand').val();
-  var myModel = $('#model').val();
-  var myPrice = $('#price').val();
-  var myDescription = $('#description').val();
+  var myMarca = $('#brand').val();
+  var myModelo = $('#model').val();
+  var myPrecio = $('#price').val();
+  var myDescripcion = $('#description').val();
 
-  if (!myBrand || !myModel || !myPrice || !myDescription) {
+  if (!myMarca || !myModelo || !myPrecio || !myDescripcion) {
     alert("Todos los campos son obligatorios.");
     return;
   }
 
   var myPhone = {
-    brand: myBrand,
-    model: myModel,
-    price: myPrice,
-    description: myDescription
+    marca: myMarca,
+    modelo: myModelo,
+    precio: myPrecio,
+    descripcion: myDescripcion
   };
 
   $.ajax({
@@ -23,11 +23,15 @@ function postPhone() {
     type: 'post',
     dataType: 'json',
     contentType: 'application/json',
+    data: JSON.stringify(myPhone),
     success: function (data) {
       alert("Teléfono agregado correctamente.");
       getPhones();
     },
-    data: JSON.stringify(myPhone)
+    error: function (err) {
+      console.error(err);
+      alert("Error al agregar teléfono.");
+    }
   });
 }
 
@@ -37,7 +41,7 @@ function getPhones() {
     type: 'get',
     dataType: 'json',
     success: function (data) {
-      const phones = data.Telefono; // Usamos "Telefono" como aparece en la respuesta
+      const phones = data.Telefono;
 
       if (!Array.isArray(phones)) {
         alert("La respuesta del servidor no contiene una lista de teléfonos válida.");
@@ -77,19 +81,21 @@ function getPhones() {
 
       html += '</tbody></table>';
       $('#resultado').html(html);
+    },
+    error: function (err) {
+      console.error(err);
+      alert("Error al obtener teléfonos.");
     }
   });
 }
 
-
 function setForm(phone) {
   $('#id').val(phone.id);
-  $('#brand').val(phone.marca); // en lugar de phone.brand
-  $('#model').val(phone.modelo); // en lugar de phone.model
-  $('#price').val(phone.precio); // en lugar de phone.price
-  $('#description').val(phone.descripcion); // en lugar de phone.description
+  $('#brand').val(phone.marca);
+  $('#model').val(phone.modelo);
+  $('#price').val(phone.precio);
+  $('#description').val(phone.descripcion);
 }
-
 
 function updatePhone() {
   let phoneId = $('#id').val();
@@ -115,11 +121,11 @@ function updatePhone() {
     type: 'put',
     dataType: 'json',
     contentType: 'application/json',
+    data: JSON.stringify(updatedPhone),
     success: function () {
       alert("Teléfono actualizado correctamente.");
       getPhones();
     },
-    data: JSON.stringify(updatedPhone),
     error: function (err) {
       console.error(err);
       alert("Error al actualizar teléfono.");
