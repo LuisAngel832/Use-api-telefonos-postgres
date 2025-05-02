@@ -1,7 +1,6 @@
 var url = "https://celularesapipostgres-latest.onrender.com/api/phones";
 
 function postPhone() {
-
   var myBrand = $('#brand').val();
   var myModel = $('#model').val();
   var myPrice = $('#price').val();
@@ -26,6 +25,7 @@ function postPhone() {
     contentType: 'application/json',
     success: function (data) {
       alert("Teléfono agregado correctamente.");
+      getPhones();
     },
     data: JSON.stringify(myPhone)
   });
@@ -37,7 +37,13 @@ function getPhones() {
     type: 'get',
     dataType: 'json',
     success: function (data) {
-      const phones = data.phones;
+      const phones = data.Telefono; // Usamos "Telefono" como aparece en la respuesta
+
+      if (!Array.isArray(phones)) {
+        alert("La respuesta del servidor no contiene una lista de teléfonos válida.");
+        return;
+      }
+
       let html = `
         <table border="1">
           <thead>
@@ -57,10 +63,10 @@ function getPhones() {
         html += `
           <tr>
             <td>${phone.id}</td>
-            <td>${phone.brand}</td>
-            <td>${phone.model}</td>
-            <td>${phone.price}</td>
-            <td>${phone.description}</td>
+            <td>${phone.marca}</td>
+            <td>${phone.modelo}</td>
+            <td>${phone.precio}</td>
+            <td>${phone.descripcion}</td>
             <td>
               <button onclick='setForm(${JSON.stringify(phone)})'>Actualizar</button>
               <button onclick='deletePhoneById(${phone.id})'>Eliminar</button>
@@ -76,45 +82,49 @@ function getPhones() {
 }
 
 
+function setForm(phone) {
+  $('#id').val(phone.id);
+  $('#brand').val(phone.marca); // en lugar de phone.brand
+  $('#model').val(phone.modelo); // en lugar de phone.model
+  $('#price').val(phone.precio); // en lugar de phone.price
+  $('#description').val(phone.descripcion); // en lugar de phone.description
+}
+
 
 function updatePhone() {
+  let phoneId = $('#id').val();
+  let myMarca = $('#brand').val();
+  let myModelo = $('#model').val();
+  let myPrecio = $('#price').val();
+  let myDescripcion = $('#description').val();
 
-  let phoneId = $('#id').val(); // ID del teléfono a actualizar
-  let myBrand = $('#brand').val();
-  let myModel = $('#model').val();
-  let myPrice = $('#price').val();
-  let myDescription = $('#description').val();
-
-  if (!phoneId || !myBrand || !myModel || !myPrice || !myDescription) {
+  if (!phoneId || !myMarca || !myModelo || !myPrecio || !myDescripcion) {
     alert("Todos los campos son obligatorios, incluido el ID.");
     return;
   }
 
   let updatedPhone = {
-    brand: myBrand,
-    model: myModel,
-    price: myPrice,
-    description: myDescription
+    marca: myMarca,
+    modelo: myModelo,
+    precio: myPrecio,
+    descripcion: myDescripcion
   };
 
   $.ajax({
-    url: `${url}/${phoneId}`, // Endpoint con el ID del teléfono
+    url: `${url}/${phoneId}`,
     type: 'put',
     dataType: 'json',
     contentType: 'application/json',
-    success: function (data) {
+    success: function () {
       alert("Teléfono actualizado correctamente.");
-      getPhones(); // Refresca la lista de teléfonos
+      getPhones();
     },
-    data: JSON.stringify(updatedPhone)
+    data: JSON.stringify(updatedPhone),
+    error: function (err) {
+      console.error(err);
+      alert("Error al actualizar teléfono.");
+    }
   });
-}
-function setForm(phone) {
-  $('#id').val(phone.id);
-  $('#brand').val(phone.brand);
-  $('#model').val(phone.model);
-  $('#price').val(phone.price);
-  $('#description').val(phone.description);
 }
 
 function deletePhoneById(id) {
@@ -125,10 +135,11 @@ function deletePhoneById(id) {
       success: function () {
         alert("Teléfono eliminado correctamente.");
         getPhones();
+      },
+      error: function (err) {
+        console.error(err);
+        alert("Error al eliminar teléfono.");
       }
     });
   }
 }
-
-
-  
